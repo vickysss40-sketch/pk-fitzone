@@ -68,13 +68,43 @@ placeholder="Enter Password" required>
 </form>
 </div>
 
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+const SUPABASE_URL = "https://xadtxyhdqxyslcxonlai.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_cawlX-k2YOvRfYkmNlCshw_pMz9sSX9";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
 document.getElementById("loginForm")
-.addEventListener("submit",function(e){
-e.preventDefault();
-document.getElementById("msg").textContent =
-"Secure authentication setup is pending.";
+.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  const msg = document.getElementById("msg");
+
+  msg.textContent = "Checking login...";
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+  if (error) {
+    msg.textContent = error.message;
+    return;
+  }
+
+  msg.textContent = "Login Successful!";
 });
 </script>
+
 </body>
 </html>
