@@ -4,7 +4,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PK FITZONE Admin Login</title>
+<title>PK FITZONE Admin Panel</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 body{
@@ -12,98 +15,444 @@ margin:0;
 font-family:Arial,sans-serif;
 background:#090d09;
 color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
 }
 .login{
 width:90%;
 max-width:400px;
-padding:35px;
+margin:100px auto;
+padding:30px;
 background:#171d17;
 border:1px solid #a4ef32;
 border-radius:15px;
-box-shadow:0 0 25px #a4ef3230;
 }
-h1{text-align:center;color:#a4ef32}
+h1{color:#a4ef32;text-align:center}
+h2{color:#a4ef32}
 p{text-align:center;color:#aaa}
-label{display:block;margin:18px 0 8px}
-input{
+label{display:block;margin:15px 0 7px}
+input,textarea{
 width:100%;
-padding:13px;
+padding:12px;
+margin-bottom:10px;
 background:#090d09;
 border:1px solid #444;
 border-radius:7px;
 color:white;
 }
 button{
-width:100%;
-padding:14px;
-margin-top:25px;
+padding:12px 18px;
 background:#a4ef32;
 border:0;
 border-radius:7px;
 font-weight:bold;
 cursor:pointer;
+margin:5px;
 }
-#msg{color:#ff6868;font-size:14px}
+button:hover{opacity:.85}
+.logout{background:#e74c3c;color:white}
+#msg{color:#ff6868}
+#dashboard{display:none;padding:20px;max-width:1100px;margin:auto}
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+border-bottom:1px solid #333;
+padding-bottom:15px;
+}
+.panel{
+background:#171d17;
+padding:20px;
+margin-top:20px;
+border:1px solid #333;
+border-radius:12px;
+}
+.product{
+background:#202820;
+padding:15px;
+margin:12px 0;
+border-radius:8px;
+border:1px solid #444;
+}
+.product button{font-size:12px}
+.delete{background:#e74c3c;color:white}
+.edit{background:#2388dd;color:white}
+.hidden{display:none}
+@media(max-width:600px){
+#dashboard{padding:12px}
+.login{margin:60px auto}
+}
 </style>
 </head>
+
 <body>
-<div class="login">
+
+<!-- LOGIN -->
+
+<div class="login" id="loginBox">
+
 <h1>PK FITZONE</h1>
 <p>ADMIN PANEL LOGIN</p>
 
 <form id="loginForm">
-<label>Username</label>
-<input id="username" placeholder="Enter Username" required>
+
+<label>Email</label>
+<input
+id="email"
+type="email"
+placeholder="Enter Email"
+required
+>
 
 <label>Password</label>
-<input id="password" type="password"
-placeholder="Enter Password" required>
+<input
+id="password"
+type="password"
+placeholder="Enter Password"
+required
+>
 
-<button type="submit">LOGIN</button>
+<button type="submit" style="width:100%">
+LOGIN
+</button>
+
 <p id="msg"></p>
+
 </form>
 </div>
 
+<!-- ADMIN DASHBOARD -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div id="dashboard">
+
+<div class="header">
+<h1>PK FITZONE ADMIN</h1>
+<button class="logout" onclick="logout()">
+LOGOUT
+</button>
+</div>
+
+<div class="panel">
+<h2>Dashboard</h2>
+<h3>Total Products: <span id="total">0</span></h3>
+</div>
+
+<div class="panel">
+
+<h2 id="formTitle">Add New Product</h2>
+
+<form id="productForm">
+
+<input type="hidden" id="productId">
+
+<label>Product Name</label>
+<input id="name" required placeholder="Product Name">
+
+<label>Price (₹)</label>
+<input id="price" type="number" min="0" required placeholder="Price">
+
+<label>Category</label>
+<input id="category" required placeholder="Category">
+
+<label>Description</label>
+<textarea id="description" placeholder="Product Description"></textarea>
+
+<label>Image URL</label>
+<input id="image_url" type="url" placeholder="Image URL">
+
+<label>Stock Quantity</label>
+<input id="stock" type="number" min="0" value="0">
+
+<button type="submit">SAVE PRODUCT</button>
+<button type="button" onclick="resetForm()">CLEAR</button>
+
+<p id="productMsg"></p>
+
+</form>
+</div>
+
+<div class="panel">
+<h2>Manage Products</h2>
+<div id="productList">Loading Products...</div>
+</div>
+
+</div>
 
 <script>
-const SUPABASE_URL = "https://xadtxyhdqxyslcxonlai.supabase.co/rest/v1/";
-const SUPABASE_KEY = "sb_publishable_cawlX-k2YOvRfYkmNlCshw_pMz9sSX9";
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+const SUPABASE_URL =
+"https://xadtxyhdqxyslcxonlai.supabase.co";
+
+const SUPABASE_KEY =
+"तुझी_PUBLISHABLE_KEY_इथे_PASTE_कर";
+
+const db = supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
+// LOGIN
+
 document.getElementById("loginForm")
-.addEventListener("submit", async function(e) {
-  e.preventDefault();
+.addEventListener("submit",async function(e){
 
-  const email = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+e.preventDefault();
 
-  const msg = document.getElementById("msg");
+const msg=document.getElementById("msg");
 
-  msg.textContent = "Checking login...";
+msg.textContent="Checking login...";
 
-  const { data, error } =
-    await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
 
-  if (error) {
-    msg.textContent = error.message;
-    return;
-  }
-
-  msg.textContent = "Login Successful!";
+const {data,error}=await db.auth.signInWithPassword({
+email,
+password
 });
+
+if(error){
+msg.textContent=error.message;
+return;
+}
+
+// Only authorized admin account
+const ADMIN_UID = "9f675957-da64-4b84-98e7-8db96025c5c8";
+
+if(data.user.id !== ADMIN_UID){
+await db.auth.signOut();
+msg.textContent="You are not authorized as admin.";
+return;
+}
+
+showDashboard();
+
+});
+
+// CHECK SESSION
+
+async function checkSession(){
+
+const {data}=await db.auth.getSession();
+
+if(data.session){
+
+const ADMIN_UID = "9f675957-da64-4b84-98e7-8db96025c5c8";
+
+if(data.session.user.id === ADMIN_UID){
+showDashboard();
+}else{
+await db.auth.signOut();
+}
+}
+
+}
+
+function showDashboard(){
+
+document.getElementById("loginBox").style.display="none";
+document.getElementById("dashboard").style.display="block";
+
+loadProducts();
+
+}
+
+// LOGOUT
+
+async function logout(){
+
+await db.auth.signOut();
+
+document.getElementById("dashboard").style.display="none";
+document.getElementById("loginBox").style.display="block";
+
+}
+
+// LOAD PRODUCTS
+
+async function loadProducts(){
+
+const list=document.getElementById("productList");
+
+list.textContent="Loading...";
+
+const {data,error}=await db
+.from("products")
+.select("*")
+.order("id",{ascending:false});
+
+if(error){
+list.textContent="Error: "+error.message;
+return;
+}
+
+document.getElementById("total").textContent=data.length;
+
+if(data.length===0){
+list.textContent="No Products Found";
+return;
+}
+
+list.innerHTML="";
+
+data.forEach(p=>{
+
+const div=document.createElement("div");
+div.className="product";
+
+const title=document.createElement("h3");
+title.textContent=p.name || "";
+
+const details=document.createElement("p");
+details.textContent=
+"Price: ₹"+p.price+
+" | Category: "+p.category+
+" | Stock: "+p.stock;
+
+const desc=document.createElement("p");
+desc.textContent=p.description || "";
+
+const edit=document.createElement("button");
+edit.className="edit";
+edit.textContent="EDIT";
+edit.onclick=()=>editProduct(p.id);
+
+const del=document.createElement("button");
+del.className="delete";
+del.textContent="DELETE";
+del.onclick=()=>deleteProduct(p.id);
+
+div.append(title,details,desc,edit,del);
+list.appendChild(div);
+
+});
+
+}
+
+// ADD / UPDATE PRODUCT
+
+document.getElementById("productForm")
+.addEventListener("submit",async function(e){
+
+e.preventDefault();
+
+const msg=document.getElementById("productMsg");
+msg.textContent="Saving...";
+
+const id=document.getElementById("productId").value;
+
+const product={
+
+name:document.getElementById("name").value.trim(),
+
+price:Number(document.getElementById("price").value),
+
+category:document.getElementById("category").value.trim(),
+
+description:document.getElementById("description").value.trim(),
+
+image_url:document.getElementById("image_url").value.trim() || null,
+
+stock:Number(document.getElementById("stock").value)
+
+};
+
+let result;
+
+if(id){
+
+result=await db
+.from("products")
+.update(product)
+.eq("id",id);
+
+}else{
+
+result=await db
+.from("products")
+.insert(product);
+
+}
+
+if(result.error){
+
+msg.textContent=result.error.message;
+return;
+
+}
+
+msg.style.color="#a4ef32";
+msg.textContent="Product Saved Successfully!";
+
+resetForm();
+loadProducts();
+
+});
+
+// EDIT PRODUCT
+
+async function editProduct(id){
+
+const {data,error}=await db
+.from("products")
+.select("*")
+.eq("id",id)
+.single();
+
+if(error){
+alert(error.message);
+return;
+}
+
+document.getElementById("productId").value=data.id;
+document.getElementById("name").value=data.name || "";
+document.getElementById("price").value=data.price || 0;
+document.getElementById("category").value=data.category || "";
+document.getElementById("description").value=data.description || "";
+document.getElementById("image_url").value=data.image_url || "";
+document.getElementById("stock").value=data.stock || 0;
+
+document.getElementById("formTitle").textContent="Edit Product";
+
+window.scrollTo({top:0,behavior:"smooth"});
+
+}
+
+// DELETE PRODUCT
+
+async function deleteProduct(id){
+
+if(!confirm("Are you sure you want to delete this product?")){
+return;
+}
+
+const {error}=await db
+.from("products")
+.delete()
+.eq("id",id);
+
+if(error){
+alert(error.message);
+return;
+}
+
+alert("Product Deleted Successfully!");
+
+loadProducts();
+
+}
+
+// RESET FORM
+
+function resetForm(){
+
+document.getElementById("productForm").reset();
+document.getElementById("productId").value="";
+document.getElementById("formTitle").textContent="Add New Product";
+document.getElementById("productMsg").textContent="";
+
+}
+
+checkSession();
+
 </script>
 
 </body>
