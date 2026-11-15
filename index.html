@@ -1,93 +1,749 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080b08">
 <title>PK FITZONE | Gym & Nutrition Store</title>
+
 <style>
-:root{--bg:#080a08;--panel:#141814;--panel2:#1c211b;--text:#f7f8f5;--muted:#b8c0b1;--lime:#b6f000;--line:#343d2a;--green:#b6f000}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}a{color:inherit}button,input{font:inherit}button{cursor:pointer}
-.top{background:#11150e;color:#dbe5ce;padding:9px 5%;font-size:12px;display:flex;justify-content:space-between;gap:12px}.top b{color:var(--lime)}
-header{position:sticky;top:0;z-index:20;background:#090c09ed;backdrop-filter:blur(12px);border-bottom:1px solid #283020}.nav{max-width:1250px;margin:auto;padding:14px 20px;display:flex;align-items:center;gap:25px}.logo{font-size:25px;font-weight:1000;text-decoration:none;white-space:nowrap}.logo span{color:var(--lime)}.links{margin-left:auto;display:flex;gap:22px}.links a{text-decoration:none;color:#e5eadf;font-size:14px}.links a:hover{color:var(--lime)}.cartbtn,.primary{background:var(--lime);color:#111;border:0;border-radius:6px;padding:12px 16px;font-weight:900}.cartbtn:hover,.primary:hover{background:#d0ff37}.count{background:#10140c;color:var(--lime);border-radius:20px;padding:2px 7px;margin-left:4px}
-.hero{max-width:1250px;margin:0 auto;padding:24px 20px 28px}.hero img{display:block;width:100%;height:auto;max-height:620px;object-fit:cover;object-position:center;border-radius:12px;border:1px solid #4b5e23;box-shadow:0 15px 55px #0009}
-.quickcats{max-width:1250px;margin:auto;padding:10px 20px 34px;display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.quickcat{border:1px solid #516321;background:linear-gradient(145deg,#171d13,#0e110d);border-radius:10px;overflow:hidden;text-decoration:none;min-width:0;transition:.2s}.quickcat:hover{transform:translateY(-4px);border-color:var(--lime)}.quickcat img{width:100%;height:105px;object-fit:cover;display:block}.quickcat strong{display:block;padding:11px 8px;text-align:center;font-size:13px;line-height:1.3}
-.strip{border-block:1px solid #303a24;background:#11160e;color:#e3ead9;padding:14px 20px;text-align:center;font-size:13px}.strip b{color:var(--lime)}
-.section{max-width:1250px;margin:auto;padding:48px 20px}.eyebrow{font-size:11px;letter-spacing:3px;color:var(--lime);font-weight:900}.heading{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:20px}.heading h2{font-size:30px;margin:8px 0}.sub{color:var(--muted);font-size:13px;line-height:1.5}.search{background:#151a13;border:1px solid #39452b;border-radius:6px;padding:12px;color:white;width:240px;outline:none}.search:focus{border-color:var(--lime)}
-.filters{display:flex;gap:9px;overflow-x:auto;padding:3px 0 16px;scrollbar-width:thin}.filter{white-space:nowrap;border:1px solid #465333;background:#151a12;color:#e8eee0;padding:9px 15px;border-radius:25px;font-size:13px}.filter.active,.filter:hover{background:var(--lime);border-color:var(--lime);color:#10140b;font-weight:800}
-.product-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(225px,1fr);grid-auto-columns: minmax(230px, 1fr);grid-template-rows:auto;gap:15px;overflow-x:auto;padding:3px 2px 18px;scroll-snap-type:x mandatory;scrollbar-color:#718d2b #171b14;scrollbar-width:thin}.card{scroll-snap-align:start;background:var(--panel);border:1px solid #30392a;border-radius:10px;overflow:hidden;min-width:0;display:flex;flex-direction:column;transition:.2s}.card:hover{border-color:#8cb52a;transform:translateY(-3px)}.photo{height:205px;background:#20261d;position:relative;overflow:hidden}.photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}.card:hover .photo img{transform:scale(1.04)}.tag{position:absolute;left:10px;top:10px;background:var(--lime);color:#10140b;padding:6px 8px;border-radius:3px;font-size:9px;font-weight:1000}.info{padding:14px;display:flex;flex-direction:column;flex:1}.cat{color:var(--lime);font-size:10px;letter-spacing:1.5px;font-weight:900;text-transform:uppercase}.info h3{font-size:15px;margin:8px 0}.desc{font-size:12px;color:var(--muted);line-height:1.5;min-height:34px}.price{font-size:19px;font-weight:900;margin:13px 0}.old{font-size:11px;color:#8d9786;text-decoration:line-through;font-weight:400;margin-left:6px}.add{background:#252d1e;border:1px solid #465333;color:#f5f8ef;padding:11px;border-radius:5px;font-weight:900;margin-top:auto}.add:hover{background:var(--lime);color:#10140b;border-color:var(--lime)}
-.rowhint{font-size:11px;color:#9eaa91;margin:-7px 0 15px}.promo{max-width:1210px;margin:5px auto 35px;padding:26px 30px;border:1px solid #617d22;border-radius:10px;background:linear-gradient(100deg,#273513,#11160d);display:flex;justify-content:space-between;align-items:center;gap:20px}.promo h2{margin:0 0 7px}.promo p{margin:0;color:#d0d9c5;font-size:13px}.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.benefit{background:var(--panel);border:1px solid var(--line);padding:20px;border-radius:9px}.benefit h3{margin:8px 0}.benefit p{color:var(--muted);font-size:13px;line-height:1.6;margin:0}
-footer{border-top:1px solid var(--line);padding:27px 20px;color:#aab49f;font-size:12px}.foot{max-width:1250px;margin:auto;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}.foot b{color:white}
-.overlay{position:fixed;inset:0;background:#000b;z-index:40;opacity:0;pointer-events:none;transition:.2s}.overlay.show{opacity:1;pointer-events:auto}.drawer{position:fixed;right:-450px;top:0;height:100%;width:min(430px,100%);z-index:41;background:#141914;border-left:1px solid #3d4a2d;padding:20px;display:flex;flex-direction:column;transition:.25s}.drawer.show{right:0}.drawerhead{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:12px}.close{background:none;border:0;color:white;font-size:27px}.items{overflow:auto;flex:1}.item{display:grid;grid-template-columns:55px 1fr auto;gap:10px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.thumb{width:55px;height:55px;object-fit:cover;border-radius:6px}.item small{color:var(--muted)}.qty{display:flex;gap:8px;align-items:center;margin-top:6px}.qty button{width:23px;height:23px;background:#303a26;color:white;border:0;border-radius:3px}.remove{border:0;background:none;color:#ff9d91;font-size:11px}.bottom{border-top:1px solid var(--line);padding-top:15px}.total{display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin-bottom:13px}.wa{width:100%;background:#20c568;color:#07170c;border:0;border-radius:6px;padding:13px;font-weight:1000}.wa:hover{background:#49df88}.note{color:#aab49f;font-size:10px;line-height:1.5;margin-top:9px}.empty{text-align:center;padding:35px 10px;color:var(--muted)}
-.wa-float{position:fixed;right:18px;bottom:18px;z-index:25;background:#20c568;color:#06170c;text-decoration:none;padding:13px 17px;border-radius:30px;font-weight:900;box-shadow:0 5px 25px #0009}
-@media(max-width:900px){.quickcats{grid-template-columns:repeat(3,1fr)}.quickcat img{height:120px}.product-row{grid-auto-columns: minmax(220px, 30%)}}
-@media(max-width:650px){.top{justify-content:center;text-align:center}.top span:last-child{display:none}.nav{padding:12px 15px}.logo{font-size:21px}.links{display:none}.cartbtn{margin-left:auto;padding:10px 12px}.hero{padding:12px 12px 20px}.hero img{border-radius:7px}.quickcats{padding:5px 12px 25px;gap:8px}.quickcat img{height:78px}.quickcat strong{font-size:11px;padding:8px 4px}.section{padding:36px 14px}.heading{align-items:stretch;flex-direction:column}.heading h2{font-size:25px}.search{width:100%}.product-row{grid-auto-columns:minmax(205px,72%);gap:11px}.photo{height:175px}.promo{margin:0 14px 25px;padding:20px;align-items:flex-start;flex-direction:column}.benefits{grid-template-columns:1fr}.wa-float{right:12px;bottom:12px;padding:11px 14px}}
+:root{
+--bg:#080a08;
+--panel:#141814;
+--text:#f7f8f5;
+--muted:#b8c0b1;
+--lime:#b6f000;
+--line:#343d2a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+margin:0;background:var(--bg);
+color:var(--text);
+font-family:Arial,Helvetica,sans-serif
+}
+a{color:inherit}
+button,input{font:inherit}
+button{cursor:pointer}
+
+.top{
+background:#11150e;
+padding:9px 5%;
+font-size:12px;
+display:flex;
+justify-content:space-between
+}
+.top b{color:var(--lime)}
+
+header{
+position:sticky;top:0;z-index:20;
+background:#090c09ed;
+border-bottom:1px solid #283020
+}
+.nav{
+max-width:1250px;margin:auto;
+padding:14px 20px;
+display:flex;align-items:center;gap:25px
+}
+.logo{font-size:25px;font-weight:1000;text-decoration:none}
+.logo span{color:var(--lime)}
+.links{margin-left:auto;display:flex;gap:22px}
+.links a{text-decoration:none;font-size:14px}
+.links a:hover{color:var(--lime)}
+
+.cartbtn,.primary{
+background:var(--lime);color:#111;
+border:0;border-radius:6px;
+padding:12px 16px;font-weight:900
+}
+.count{
+background:#10140c;color:var(--lime);
+border-radius:20px;padding:2px 7px
+}
+
+.hero{
+max-width:1250px;margin:auto;
+padding:24px 20px
+}
+.hero img{
+width:100%;height:auto;max-height:620px;
+object-fit:cover;border-radius:12px
+}
+
+.quickcats{
+max-width:1250px;margin:auto;
+padding:10px 20px 34px;
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:12px
+}
+.quickcat{
+border:1px solid #516321;
+background:#171d13;
+border-radius:10px;
+overflow:hidden;text-decoration:none
+}
+.quickcat img{
+width:100%;height:105px;
+object-fit:cover;display:block
+}
+.quickcat strong{
+display:block;padding:11px 8px;
+text-align:center;font-size:13px
+}
+
+.strip{
+background:#11160e;
+padding:14px;text-align:center
+}
+.strip b{color:var(--lime)}
+
+.section{
+max-width:1250px;margin:auto;
+padding:48px 20px
+}
+.eyebrow{
+font-size:11px;letter-spacing:3px;
+color:var(--lime);font-weight:900
+}
+.heading{
+display:flex;justify-content:space-between;
+align-items:end;gap:18px;margin-bottom:20px
+}
+.heading h2{font-size:30px}
+.sub{color:var(--muted);font-size:13px}
+.search{
+background:#151a13;border:1px solid #39452b;
+border-radius:6px;padding:12px;color:white;width:240px
+}
+
+.filters{
+display:flex;gap:9px;overflow-x:auto;
+padding:3px 0 16px
+}
+.filter{
+white-space:nowrap;
+border:1px solid #465333;
+background:#151a12;color:white;
+padding:9px 15px;border-radius:25px
+}
+.filter.active,.filter:hover{
+background:var(--lime);color:#10140b
+}
+
+.product-row{
+display:grid;
+grid-auto-flow:column;
+grid-auto-columns:minmax(230px,1fr);
+gap:15px;overflow-x:auto;
+padding:3px 2px 18px
+}
+.card{
+background:var(--panel);
+border:1px solid #30392a;
+border-radius:10px;overflow:hidden;
+display:flex;flex-direction:column
+}
+.photo{
+height:205px;background:#20261d;
+position:relative;overflow:hidden
+}
+.photo img{
+width:100%;height:100%;
+object-fit:cover
+}
+.tag{
+position:absolute;left:10px;top:10px;
+background:var(--lime);color:#10140b;
+padding:6px 8px;font-size:10px;font-weight:900
+}
+.info{
+padding:14px;display:flex;
+flex-direction:column;flex:1
+}
+.cat{
+color:var(--lime);font-size:10px;
+font-weight:900;text-transform:uppercase
+}
+.info h3{font-size:15px}
+.desc{font-size:12px;color:var(--muted);min-height:34px}
+.price{font-size:19px;font-weight:900;margin:13px 0}
+.add{
+background:#252d1e;border:1px solid #465333;
+color:white;padding:11px;border-radius:5px;
+font-weight:900;margin-top:auto
+}
+.add:hover{background:var(--lime);color:#111}
+
+.promo{
+max-width:1210px;margin:20px auto;
+padding:26px 30px;
+border:1px solid #617d22;
+border-radius:10px;
+background:#273513;
+display:flex;justify-content:space-between;
+align-items:center;gap:20px
+}
+.benefits{
+display:grid;grid-template-columns:repeat(3,1fr);
+gap:14px
+}
+.benefit{
+background:var(--panel);
+border:1px solid var(--line);
+padding:20px;border-radius:9px
+}
+.benefit p{color:var(--muted);font-size:13px}
+
+footer{
+border-top:1px solid var(--line);
+padding:27px 20px;color:#aab49f;font-size:12px
+}
+.foot{
+max-width:1250px;margin:auto;
+display:flex;justify-content:space-between;
+gap:15px;flex-wrap:wrap
+}
+.foot b{color:white}
+
+.overlay{
+position:fixed;inset:0;background:#000b;
+z-index:40;opacity:0;pointer-events:none
+}
+.overlay.show{opacity:1;pointer-events:auto}
+.drawer{
+position:fixed;right:-450px;top:0;
+height:100%;width:min(430px,100%);
+z-index:41;background:#141914;
+padding:20px;display:flex;
+flex-direction:column;transition:.25s
+}
+.drawer.show{right:0}
+.drawerhead{
+display:flex;justify-content:space-between;
+align-items:center;border-bottom:1px solid var(--line)
+}
+.close{background:none;border:0;color:white;font-size:27px}
+.items{overflow:auto;flex:1}
+.item{
+display:grid;grid-template-columns:55px 1fr auto;
+gap:10px;align-items:center;padding:13px 0;
+border-bottom:1px solid var(--line)
+}
+.thumb{width:55px;height:55px;object-fit:cover}
+.qty{display:flex;gap:8px;align-items:center;margin-top:6px}
+.qty button{
+width:23px;height:23px;
+background:#303a26;color:white;border:0
+}
+.remove{border:0;background:none;color:#ff9d91}
+.bottom{border-top:1px solid var(--line);padding-top:15px}
+.total{
+display:flex;justify-content:space-between;
+font-size:20px;font-weight:900
+}
+.wa{
+width:100%;background:#20c568;
+border:0;border-radius:6px;padding:13px;font-weight:900
+}
+.empty{text-align:center;padding:35px;color:var(--muted)}
+.wa-float{
+position:fixed;right:18px;bottom:18px;
+z-index:25;background:#20c568;color:#06170c;
+text-decoration:none;padding:13px 17px;
+border-radius:30px;font-weight:900
+}
+
+@media(max-width:900px){
+.quickcats{grid-template-columns:repeat(3,1fr)}
+.product-row{grid-auto-columns:minmax(220px,30%)}
+}
+@media(max-width:650px){
+.top{justify-content:center}
+.top span:last-child{display:none}
+.nav{padding:12px 15px}
+.logo{font-size:21px}
+.links{display:none}
+.cartbtn{margin-left:auto}
+.hero{padding:12px}
+.quickcats{padding:5px 12px 25px;gap:8px}
+.quickcat img{height:78px}
+.quickcat strong{font-size:11px}
+.section{padding:36px 14px}
+.heading{align-items:stretch;flex-direction:column}
+.search{width:100%}
+.product-row{grid-auto-columns:minmax(205px,72%)}
+.photo{height:175px}
+.promo{margin:14px;padding:20px;flex-direction:column}
+.benefits{grid-template-columns:1fr}
+}
 </style>
 </head>
+
 <body>
-<div class="top"><span><b>PK FITZONE</b> — Fuel Your Fitness Journey</span><span>Gym & Nutrition Store • By Prasanna Karhale</span></div>
-<header><nav class="nav"><a class="logo" href="#">PK <span>FITZONE</span></a><div class="links"><a href="#shop">Shop</a><a href="#categories">Categories</a><a href="#why">Why PK FITZONE</a><a href="#contact">Contact</a></div><button class="cartbtn" onclick="openCart()">🛒 Cart <span class="count" id="count">0</span></button></nav></header>
+
+<div class="top">
+<span><b>PK FITZONE</b> — Fuel Your Fitness Journey</span>
+<span>Gym & Nutrition Store • By Prasanna Karhale</span>
+</div>
+
+<header>
+<nav class="nav">
+<a class="logo" href="#">PK <span>FITZONE</span></a>
+<div class="links">
+<a href="#shop">Shop</a>
+<a href="#categories">Categories</a>
+<a href="#why">Why PK FITZONE</a>
+<a href="#contact">Contact</a>
+</div>
+<button class="cartbtn" onclick="openCart()">
+🛒 Cart <span class="count" id="count">0</span>
+</button>
+</nav>
+</header>
+
 <main>
-<section class="hero" aria-label="PK FITZONE home banner"><img src="pk-fitzone-banner.jpeg" alt="PK FITZONE Gym and Nutrition Store banner by Prasanna Karhale"></section>
-<section id="categories" class="quickcats">
-<a class="quickcat" href="#shop" onclick="pick('Protein & Supplements')"><img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?auto=format&fit=crop&w=500&q=80" alt="Protein supplements"><strong>Protein & Supplements</strong></a>
-<a class="quickcat" href="#shop" onclick="pick('Seeds & Nutrition')"><img src="https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=500&q=80" alt="Nuts and seeds"><strong>Seeds & Nutrition</strong></a>
-<a class="quickcat" href="#shop" onclick="pick('Gym Accessories')"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=500&q=80" alt="Gym accessories"><strong>Gym Accessories</strong></a>
-<a class="quickcat" href="#shop" onclick="pick('Gym Clothing')"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=500&q=80" alt="Gym clothing and gym"><strong>Gym Clothing</strong></a>
-<a class="quickcat" href="#shop" onclick="pick('Gym Equipment')"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80" alt="Gym equipment"><strong>Gym Equipment</strong></a>
-<a class="quickcat" href="#shop" onclick="pick('Recovery & Wellness')"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=500&q=80" alt="Recovery and wellness"><strong>Recovery & Wellness</strong></a>
+
+<section class="hero">
+<img src="pk-fitzone-banner.jpeg" alt="PK FITZONE Banner">
 </section>
-<div class="strip">🏆 <b>Genuine Products</b> &nbsp; • &nbsp; 🚚 Fast Delivery Enquiry &nbsp; • &nbsp; 🛡️ Fitness Support</div>
-<section class="section" id="shop"><div class="heading"><div><div class="eyebrow">SHOP BY YOUR FITNESS GOALS</div><h2>Explore Our Products</h2><div class="sub">Swipe or scroll sideways to browse the collection. Tap Add to Cart to order on WhatsApp.</div></div><input class="search" id="search" placeholder="Search products..." oninput="render()"></div><div class="filters" id="filters"></div><div class="rowhint">← Scroll horizontally to see more products →</div><div class="product-row" id="products"></div></section>
-<section class="promo"><div><h2>READY TO LEVEL UP?</h2><p>Choose your fitness essentials and send your order directly to PK FITZONE on WhatsApp.</p></div><a class="primary" href="https://wa.me/919324419623" target="_blank" rel="noopener" style="text-decoration:none;white-space:nowrap">CHAT ON WHATSAPP</a></section>
-<section class="section" id="why"><div class="eyebrow">THE PK FITZONE PROMISE</div><h2>Train Strong. Shop Smart.</h2><div class="benefits"><div class="benefit"><div>🏅</div><h3>Fitness Essentials</h3><p>Explore nutrition, accessories, clothing, equipment and recovery products in one place.</p></div><div class="benefit"><div>🛒</div><h3>Easy Shopping</h3><p>Search, browse categories, add products to your cart and review your selection.</p></div><div class="benefit"><div>💬</div><h3>WhatsApp Ordering</h3><p>Send your cart and contact details directly to the PK FITZONE WhatsApp number to confirm availability and delivery.</p></div></div></section>
+
+<section id="categories" class="quickcats">
+
+<a class="quickcat" href="#shop" onclick="pick('Protein & Supplements')">
+<img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?auto=format&fit=crop&w=500&q=80">
+<strong>Protein & Supplements</strong>
+</a>
+
+<a class="quickcat" href="#shop" onclick="pick('Seeds & Nutrition')">
+<img src="https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=500&q=80">
+<strong>Seeds & Nutrition</strong>
+</a>
+
+<a class="quickcat" href="#shop" onclick="pick('Gym Accessories')">
+<img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=500&q=80">
+<strong>Gym Accessories</strong>
+</a>
+
+<a class="quickcat" href="#shop" onclick="pick('Gym Clothing')">
+<img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=500&q=80">
+<strong>Gym Clothing</strong>
+</a>
+
+<a class="quickcat" href="#shop" onclick="pick('Gym Equipment')">
+<img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80">
+<strong>Gym Equipment</strong>
+</a>
+
+<a class="quickcat" href="#shop" onclick="pick('Recovery & Wellness')">
+<img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=500&q=80">
+<strong>Recovery & Wellness</strong>
+</a>
+
+</section>
+
+<div class="strip">
+🏆 <b>Genuine Products</b> • 🚚 Fast Delivery • 🛡️ Fitness Support
+</div>
+
+<section class="section" id="shop">
+
+<div class="heading">
+<div>
+<div class="eyebrow">SHOP BY YOUR FITNESS GOALS</div>
+<h2>Explore Our Products</h2>
+<div class="sub">Browse products and order on WhatsApp.</div>
+</div>
+<input class="search" id="search"
+placeholder="Search products..." oninput="render()">
+</div>
+
+<div class="filters" id="filters"></div>
+<div class="product-row" id="products"></div>
+
+</section>
+
+<section class="promo">
+<div>
+<h2>READY TO LEVEL UP?</h2>
+<p>Choose your fitness essentials.</p>
+</div>
+<a class="primary"
+href="https://wa.me/919324419623"
+target="_blank" style="text-decoration:none">
+CHAT ON WHATSAPP
+</a>
+</section>
+
+<section class="section" id="why">
+<div class="eyebrow">THE PK FITZONE PROMISE</div>
+<h2>Train Strong. Shop Smart.</h2>
+
+<div class="benefits">
+<div class="benefit">
+<h3>🏅 Fitness Essentials</h3>
+<p>Nutrition, accessories and equipment.</p>
+</div>
+<div class="benefit">
+<h3>🛒 Easy Shopping</h3>
+<p>Search and add products to cart.</p>
+</div>
+<div class="benefit">
+<h3>💬 WhatsApp Ordering</h3>
+<p>Order directly through WhatsApp.</p>
+</div>
+</div>
+</section>
+
 </main>
+
 <footer id="contact">
 <div class="foot">
-<div><b>PK FITZONE</b><br>Gym & Nutrition Store<br>By Prasanna Karhale</div>
-<div>WhatsApp: +91 93244 19623<br>Orders are confirmed directly with the store.</div>
-<div class="visitor-count" style="min-width:190px;padding:12px 16px;border:1px solid #343d2a;border-radius:10px;background:#141814">
-<b style="color:#b6f000">WEBSITE VISITS</b><br>
-<span style="font-size:22px;font-weight:900;color:#fff"><span class="counterapi" style="display:inline-block;min-width:40px">Loading…</span></span>
-<div style="font-size:11px;color:#b8c0b1">Total page views</div>
-</div>
+<div><b>PK FITZONE</b><br>By Prasanna Karhale</div>
+<div>WhatsApp: +91 93244 19623</div>
 <div>© <span id="year"></span> PK FITZONE</div>
-</div></footer>
-<a class="wa-float" href="https://wa.me/919324419623" target="_blank" rel="noopener">WhatsApp Order</a>
-<div class="overlay" id="overlay" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawerhead"><h2>Your Cart</h2><button class="close" onclick="closeCart()">×</button></div><div class="items" id="items"></div><div class="bottom"><div class="total"><span>Total</span><span id="total">₹0</span></div><button class="wa" onclick="sendWhatsApp()">SEND ORDER ON WHATSAPP</button><div class="note">Your order message will open in WhatsApp to +91 93244 19623. The store will confirm stock, final price, delivery and payment. No payment is taken on this website.</div></div></aside>
-<script async src="https://counterapi.com/c.js?ns=pk-fitzone-0i6t.onrender.com"></script>
+</div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/919324419623" target="_blank">
+WhatsApp Order
+</a>
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<aside class="drawer" id="drawer">
+<div class="drawerhead">
+<h2>Your Cart</h2>
+<button class="close" onclick="closeCart()">×</button>
+</div>
+
+<div class="items" id="items"></div>
+
+<div class="bottom">
+<div class="total">
+<span>Total</span>
+<span id="total">₹0</span>
+</div>
+<button class="wa" onclick="sendWhatsApp()">
+SEND ORDER ON WHATSAPP
+</button>
+</div>
+</aside>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+/* =================================
+   SUPABASE CONFIGURATION
+================================= */
+
 const WA_NUMBER="919324419623";
-const products=[
-{id:1,name:"Whey Protein Blend",cat:"Protein & Supplements",price:2499,old:2999,tag:"POPULAR",desc:"Protein supplement for your training routine.",img:"https://images.unsplash.com/photo-1593095948071-474c5cc2989d?auto=format&fit=crop&w=700&q=85"},
-{id:2,name:"Creatine Monohydrate",cat:"Protein & Supplements",price:899,old:1099,tag:"BEST SELLER",desc:"A popular supplement for strength training.",img:"https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?auto=format&fit=crop&w=700&q=85"},
-{id:3,name:"Pre-Workout Formula",cat:"Protein & Supplements",price:1299,old:1499,tag:"ENERGY",desc:"Pre-training nutrition product.",img:"https://images.unsplash.com/photo-1611078489935-0cb964de46d6?auto=format&fit=crop&w=700&q=85"},
-{id:4,name:"Mixed Seeds & Nuts",cat:"Seeds & Nutrition",price:399,old:499,tag:"NUTRITION",desc:"A snack mix for an active lifestyle.",img:"https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=700&q=85"},
-{id:5,name:"Gym Gloves",cat:"Gym Accessories",price:349,old:449,tag:"GYM GEAR",desc:"Training gloves for hand comfort and grip.",img:"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=700&q=85"},
-{id:6,name:"Lifting Belt",cat:"Gym Accessories",price:899,old:1099,tag:"SUPPORT",desc:"A weight-training belt accessory.",img:"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=700&q=85"},
-{id:7,name:"Shaker Bottle",cat:"Gym Accessories",price:299,old:399,tag:"ESSENTIAL",desc:"A handy bottle for mixing your shakes.",img:"https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=700&q=85"},
-{id:8,name:"Resistance Bands",cat:"Gym Accessories",price:499,old:649,tag:"VERSATILE",desc:"Useful for warm-ups and resistance workouts.",img:"https://images.unsplash.com/photo-1599058917212-d750089bc07d?auto=format&fit=crop&w=700&q=85"},
-{id:9,name:"Training T-Shirt",cat:"Gym Clothing",price:599,old:799,tag:"APPAREL",desc:"Comfortable workout clothing style.",img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=85"},
-{id:10,name:"Gym Shorts",cat:"Gym Clothing",price:699,old:899,tag:"TRAINING",desc:"Training shorts for gym sessions.",img:"https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=700&q=85"},
-{id:11,name:"Dumbbell Set",cat:"Gym Equipment",price:2499,old:2999,tag:"EQUIPMENT",desc:"Strength-training equipment for home workouts.",img:"https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=700&q=85"},
-{id:12,name:"Yoga Mat",cat:"Gym Equipment",price:799,old:999,tag:"FITNESS",desc:"A mat for stretching and floor exercises.",img:"https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=700&q=85"},
-{id:13,name:"Massage Gun",cat:"Recovery & Wellness",price:1999,old:2499,tag:"RECOVERY",desc:"A handheld massage device category.",img:"https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=700&q=85"},
-{id:14,name:"Foam Roller",cat:"Recovery & Wellness",price:699,old:899,tag:"WELLNESS",desc:"A tool for mobility and recovery routines.",img:"https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&w=700&q=85"}
+
+// STEP 1: Paste your Project URL
+const SUPABASE_URL="PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
+
+// STEP 2: Paste your Publishable Key
+const SUPABASE_ANON_KEY="PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+);
+
+/* =================================
+   PRODUCTS FROM SUPABASE
+================================= */
+
+let products=[];
+let cart=JSON.parse(
+localStorage.getItem("pkfz_cart_v2")||"[]"
+);
+let active="All";
+
+const FALLBACK_IMAGE=
+"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=700&q=85";
+
+const cats=[
+"All",
+"Protein & Supplements",
+"Seeds & Nutrition",
+"Gym Accessories",
+"Gym Clothing",
+"Gym Equipment",
+"Recovery & Wellness"
 ];
-let cart=JSON.parse(localStorage.getItem("pkfz_cart_v2")||"[]"),active="All";
-const cats=["All","Protein & Supplements","Seeds & Nutrition","Gym Accessories","Gym Clothing","Gym Equipment","Recovery & Wellness"];
-const money=n=>"₹"+n.toLocaleString("en-IN");
-function save(){localStorage.setItem("pkfz_cart_v2",JSON.stringify(cart));updateCart()}
-function pick(c){active=c;renderFilters();render();document.getElementById("shop").scrollIntoView({behavior:"smooth"})}
-function renderFilters(){document.getElementById("filters").innerHTML=cats.map(c=>`<button class="filter ${active===c?"active":""}" onclick="pick('${c}')">${c}</button>`).join("")}
-function render(){let q=document.getElementById("search").value.toLowerCase();let list=products.filter(p=>(active==="All"||p.cat===active)&&(p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)));document.getElementById("products").innerHTML=list.length?list.map(p=>`<article class="card"><div class="photo"><span class="tag">${p.tag}</span><img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#303a26,#111)'"></div><div class="info"><div class="cat">${p.cat}</div><h3>${p.name}</h3><div class="desc">${p.desc}</div><div class="price">${money(p.price)} <span class="old">${money(p.old)}</span></div><button class="add" onclick="add(${p.id})">＋ ADD TO CART</button></div></article>`).join(""):'<div class="empty">No products found. Try another search.</div>'}
-function add(id){let x=cart.find(i=>i.id===id);if(x)x.qty++;else cart.push({id,qty:1});save();toast("Added to cart")}
-function updateCart(){document.getElementById("count").textContent=cart.reduce((s,x)=>s+x.qty,0);document.getElementById("total").textContent=money(cart.reduce((s,x)=>s+products.find(p=>p.id===x.id).price*x.qty,0));document.getElementById("items").innerHTML=cart.length?cart.map(x=>{let p=products.find(y=>y.id===x.id);return `<div class="item"><img class="thumb" src="${p.img}" alt=""><div><b>${p.name}</b><br><small>${money(p.price)} each</small><div class="qty"><button onclick="qty(${p.id},-1)">−</button>${x.qty}<button onclick="qty(${p.id},1)">＋</button></div></div><button class="remove" onclick="removeItem(${p.id})">Remove</button></div>`}).join(""):'<div class="empty">Your cart is empty.<br>Browse products and add items.</div>'}
-function qty(id,n){let x=cart.find(i=>i.id===id);if(x){x.qty+=n;if(x.qty<=0)cart=cart.filter(i=>i.id!==id);save()}}
-function removeItem(id){cart=cart.filter(i=>i.id!==id);save()}
-function openCart(){document.getElementById("drawer").classList.add("show");document.getElementById("overlay").classList.add("show")}
-function closeCart(){document.getElementById("drawer").classList.remove("show");document.getElementById("overlay").classList.remove("show")}
-function toast(m){let t=document.getElementById("toast");if(!t)return;t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1600)}
-function sendWhatsApp(){if(!cart.length){alert("Your cart is empty.");return}let lines=cart.map(x=>{let p=products.find(y=>y.id===x.id);return `• ${p.name} x ${x.qty} = ${money(p.price*x.qty)}`});let total=cart.reduce((s,x)=>s+products.find(p=>p.id===x.id).price*x.qty,0);let msg=`Hello PK FITZONE! I want to place an order:\n\n${lines.join("\n")}\n\nEstimated Total: ${money(total)}\n\nPlease confirm product availability, delivery charges and payment details.\n\nName:\nDelivery Address:\nMobile:`;window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,"_blank","noopener")}
-document.getElementById("year").textContent=new Date().getFullYear();renderFilters();render();updateCart();
+
+const money=n=>"₹"+Number(n).toLocaleString("en-IN");
+
+async function loadProducts(){
+
+document.getElementById("products").innerHTML=
+'<div class="empty">Loading products...</div>';
+
+const {data,error}=await supabaseClient
+.from("products")
+.select("*")
+.order("id",{ascending:true});
+
+if(error){
+console.error(error);
+document.getElementById("products").innerHTML=
+'<div class="empty">Products load झाले नाहीत. Supabase URL, Key आणि RLS policy तपासा.</div>';
+return;
+}
+
+products=(data||[]).map(p=>({
+id:p.id,
+name:p.name,
+cat:p.category||"Other",
+price:Number(p.price)||0,
+old:Number(p.price)||0,
+tag:"PK FITZONE",
+desc:p.description||"",
+img:p.image_url||FALLBACK_IMAGE,
+stock:Number(p.stock)||0
+}));
+
+cart=cart.filter(item=>
+products.some(p=>p.id===item.id)
+);
+
+render();
+updateCart();
+}
+
+/* =================================
+   FILTERS AND SEARCH
+================================= */
+
+function pick(c){
+active=c;
+renderFilters();
+render();
+document.getElementById("shop").scrollIntoView({
+behavior:"smooth"
+});
+}
+
+function renderFilters(){
+document.getElementById("filters").innerHTML=
+cats.map(c=>`
+<button class="filter ${active===c?"active":""}"
+onclick="pick('${c}')">${c}</button>
+`).join("");
+}
+
+function render(){
+
+const q=document.getElementById("search")
+.value.toLowerCase();
+
+const list=products.filter(p=>
+(active==="All"||p.cat===active)&&
+(
+p.name.toLowerCase().includes(q)||
+p.cat.toLowerCase().includes(q)||
+p.desc.toLowerCase().includes(q)
+)
+);
+
+document.getElementById("products").innerHTML=
+list.length?
+list.map(p=>`
+<article class="card">
+
+<div class="photo">
+<span class="tag">${p.tag}</span>
+<img src="${p.img}" alt="${p.name}"
+onerror="this.src='${FALLBACK_IMAGE}'">
+</div>
+
+<div class="info">
+<div class="cat">${p.cat}</div>
+<h3>${p.name}</h3>
+<div class="desc">${p.desc}</div>
+<div class="price">${money(p.price)}</div>
+
+<button class="add"
+onclick="add(${p.id})">
+＋ ADD TO CART
+</button>
+</div>
+
+</article>
+`).join("")
+:
+'<div class="empty">No products found.</div>';
+}
+
+/* =================================
+   SHOPPING CART
+================================= */
+
+function save(){
+localStorage.setItem(
+"pkfz_cart_v2",
+JSON.stringify(cart)
+);
+updateCart();
+}
+
+function add(id){
+
+let x=cart.find(i=>i.id===id);
+
+if(x)x.qty++;
+else cart.push({id,qty:1});
+
+save();
+alert("Added to cart!");
+}
+
+function updateCart(){
+
+document.getElementById("count").textContent=
+cart.reduce((s,x)=>s+x.qty,0);
+
+const validCart=cart.filter(x=>
+products.some(p=>p.id===x.id)
+);
+
+const total=validCart.reduce((s,x)=>{
+let p=products.find(p=>p.id===x.id);
+return s+p.price*x.qty;
+},0);
+
+document.getElementById("total").textContent=
+money(total);
+
+document.getElementById("items").innerHTML=
+validCart.length?
+validCart.map(x=>{
+
+let p=products.find(y=>y.id===x.id);
+
+return `
+<div class="item">
+
+<img class="thumb" src="${p.img}" alt="">
+
+<div>
+<b>${p.name}</b><br>
+<small>${money(p.price)} each</small>
+
+<div class="qty">
+<button onclick="qty(${p.id},-1)">−</button>
+${x.qty}
+<button onclick="qty(${p.id},1)">＋</button>
+</div>
+</div>
+
+<button class="remove"
+onclick="removeItem(${p.id})">
+Remove
+</button>
+
+</div>
+`;
+}).join("")
+:
+'<div class="empty">Your cart is empty.</div>';
+}
+
+function qty(id,n){
+
+let x=cart.find(i=>i.id===id);
+
+if(x){
+x.qty+=n;
+
+if(x.qty<=0){
+cart=cart.filter(i=>i.id!==id);
+}
+
+save();
+}
+}
+
+function removeItem(id){
+cart=cart.filter(i=>i.id!==id);
+save();
+}
+
+function openCart(){
+document.getElementById("drawer")
+.classList.add("show");
+document.getElementById("overlay")
+.classList.add("show");
+}
+
+function closeCart(){
+document.getElementById("drawer")
+.classList.remove("show");
+document.getElementById("overlay")
+.classList.remove("show");
+}
+
+/* =================================
+   WHATSAPP ORDER
+================================= */
+
+function sendWhatsApp(){
+
+if(!cart.length){
+alert("Your cart is empty.");
+return;
+}
+
+let lines=cart.map(x=>{
+
+let p=products.find(y=>y.id===x.id);
+
+return `• ${p.name} x ${x.qty} = ${money(p.price*x.qty)}`;
+
+});
+
+let total=cart.reduce((s,x)=>{
+
+let p=products.find(y=>y.id===x.id);
+
+return s+p.price*x.qty;
+
+},0);
+
+let msg=`Hello PK FITZONE!
+
+I want to place an order:
+
+${lines.join("\n")}
+
+Estimated Total: ${money(total)}
+
+Please confirm availability and delivery.
+
+Name:
+Delivery Address:
+Mobile:`;
+
+window.open(
+`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,
+"_blank"
+);
+}
+
+/* =================================
+   START WEBSITE
+================================= */
+
+document.getElementById("year").textContent=
+new Date().getFullYear();
+
+renderFilters();
+loadProducts();
+
 </script>
-</body></html>
+
+</body>
+</html>
